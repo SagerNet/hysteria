@@ -113,6 +113,7 @@ type clientConfig struct {
 	ReceiveWindowConn   uint64 `json:"recv_window_conn"`
 	ReceiveWindow       uint64 `json:"recv_window"`
 	DisableMTUDiscovery bool   `json:"disable_mtu_discovery"`
+	ProtectPath         string `json:"protect_path"`
 }
 
 func (c *clientConfig) Check() error {

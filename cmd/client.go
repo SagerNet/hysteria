@@ -84,7 +84,7 @@ func client(config *clientConfig) {
 		uint64(config.UpMbps)*mbpsToBps, uint64(config.DownMbps)*mbpsToBps,
 		func(refBPS uint64) congestion.CongestionControl {
 			return hyCongestion.NewBrutalSender(congestion.ByteCount(refBPS))
-		}, obfuscator)
+		}, obfuscator, config.ProtectPath)
 	if err != nil {
 		logrus.WithField("error", err).Fatal("Failed to initialize client")
 	}

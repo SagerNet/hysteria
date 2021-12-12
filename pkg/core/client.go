@@ -40,10 +40,11 @@ type Client struct {
 
 	udpSessionMutex sync.RWMutex
 	udpSessionMap   map[uint32]chan *udpMessage
+	protectPath     string
 }
 
 func NewClient(serverAddr string, auth []byte, tlsConfig *tls.Config, quicConfig *quic.Config, transport transport2.Transport,
-	sendBPS uint64, recvBPS uint64, congestionFactory CongestionFactory, obfuscator Obfuscator) (*Client, error) {
+	sendBPS uint64, recvBPS uint64, congestionFactory CongestionFactory, obfuscator Obfuscator, protectPath string) (*Client, error) {
 	c := &Client{
 		transport:         transport,
 		serverAddr:        serverAddr,
@@ -54,6 +55,7 @@ func NewClient(serverAddr string, auth []byte, tlsConfig *tls.Config, quicConfig
 		obfuscator:        obfuscator,
 		tlsConfig:         tlsConfig,
 		quicConfig:        quicConfig,
+		protectPath:       protectPath,
 	}
 	if err := c.connectToServer(); err != nil {
 		return nil, err
@@ -69,6 +71,19 @@ func (c *Client) connectToServer() error {
 	udpConn, err := c.transport.QUICListenUDP(nil)
 	if err != nil {
 		return err
+	}
+	conn, err := udpConn.SyscallConn()
+	if err != nil {
+		return err
+	}
+	err2 := conn.Control(func(fd uintptr) {
+		err = protectFd(c.protectPath, fd)
+	})
+	if err != nil {
+		return err
+	}
+	if err2 != nil {
+		return err2
 	}
 	var qs quic.Session
 	if c.obfuscator != nil {
