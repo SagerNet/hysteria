@@ -31,11 +31,6 @@ func main() {
 		Before:               initApp,
 		Commands: []*cli.Command{
 			{
-				Name:   "server",
-				Usage:  "Run as server mode",
-				Action: serverAction,
-			},
-			{
 				Name:   "client",
 				Usage:  "Run as client mode",
 				Action: clientAction,
@@ -68,35 +63,6 @@ func clientAction(c *cli.Context) error {
 	}
 	client(cc)
 	return nil
-}
-
-func serverAction(c *cli.Context) error {
-	cbs, err := ioutil.ReadFile(c.String("config"))
-	if err != nil {
-		logrus.WithFields(logrus.Fields{
-			"file":  c.String("config"),
-			"error": err,
-		}).Fatal("Failed to read configuration")
-	}
-	// server mode
-	sc, err := parseServerConfig(cbs)
-	if err != nil {
-		logrus.WithFields(logrus.Fields{
-			"file":  c.String("config"),
-			"error": err,
-		}).Fatal("Failed to parse server configuration")
-	}
-	server(sc)
-	return nil
-}
-
-func parseServerConfig(cb []byte) (*serverConfig, error) {
-	var c serverConfig
-	err := json5.Unmarshal(cb, &c)
-	if err != nil {
-		return nil, err
-	}
-	return &c, c.Check()
 }
 
 func parseClientConfig(cb []byte) (*clientConfig, error) {
