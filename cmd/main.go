@@ -100,10 +100,6 @@ func initApp(c *cli.Context) error {
 		})
 	}
 
-	if !c.Bool("no-check") {
-		go checkUpdate()
-	}
-
 	return nil
 }
 
@@ -133,11 +129,6 @@ func commonFlags() []cli.Flag {
 			Usage:   "log output format",
 			EnvVars: []string{"HYSTERIA_LOG_FORMAT", "LOGGING_FORMATTER"},
 			Value:   "txt",
-		},
-		&cli.BoolFlag{
-			Name:    "no-check",
-			Usage:   "disable update check",
-			EnvVars: []string{"HYSTERIA_CHECK_UPDATE"},
 		},
 	}
 }
