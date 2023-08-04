@@ -6,8 +6,7 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/apernet/quic-go"
-	"github.com/apernet/quic-go/http3"
+	"github.com/sagernet/quic-go/http3"
 
 	"github.com/apernet/hysteria/core/internal/congestion"
 	"github.com/apernet/hysteria/core/internal/protocol"

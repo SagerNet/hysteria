@@ -16,8 +16,7 @@ import (
 	"github.com/apernet/hysteria/core/internal/protocol"
 	"github.com/apernet/hysteria/core/server"
 
-	"github.com/apernet/quic-go"
-	"github.com/apernet/quic-go/http3"
+	"github.com/sagernet/quic-go/http3"
 )
 
 // TestServerMasquerade is a test to ensure that the server behaves as a normal

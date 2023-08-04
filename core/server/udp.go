@@ -2,11 +2,10 @@ package server
 
 import (
 	"errors"
+	"github.com/sagernet/quic-go"
 	"math/rand"
 	"sync"
 	"time"
-
-	"github.com/apernet/quic-go"
 
 	"github.com/apernet/hysteria/core/internal/frag"
 	"github.com/apernet/hysteria/core/internal/protocol"

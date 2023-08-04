@@ -3,7 +3,7 @@ package congestion
 import (
 	"time"
 
-	"github.com/apernet/quic-go/congestion"
+	"github.com/sagernet/quic-go/congestion"
 )
 
 const (
